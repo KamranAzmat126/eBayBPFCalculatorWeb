@@ -1,0 +1,407 @@
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --background: #f3f5f9;
+  --surface: #ffffff;
+  --text: #172033;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --green: #059669;
+  --red: #dc2626;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.header {
+  background: #111827;
+  color: white;
+  padding: 18px max(calc((100% - 1050px) / 2), 22px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  /* background: var(--primary); */
+  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+}
+
+.brand h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.brand span {
+  color: #aebbd0;
+  font-size: 12px;
+}
+
+.free-badge {
+  background: #14532d;
+  color: #bbf7d0;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 45px 22px;
+}
+
+.intro {
+  margin-bottom: 32px;
+}
+
+.eyebrow, .step-label {
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.intro h1 {
+  font-size: clamp(30px, 5vw, 42px);
+  margin: 10px 0;
+  letter-spacing: -1.5px;
+}
+
+.intro p, .section-heading p {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.seller-section {
+  margin-bottom: 24px;
+}
+
+.seller-section h3, .info-section h3 {
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+.seller-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.seller-card {
+  text-align: left;
+  padding: 19px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text);
+  transition: .2s;
+}
+
+.seller-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.seller-card.active {
+  border: 2px solid var(--primary);
+  background: #eff6ff;
+}
+
+.seller-icon {
+  font-size: 25px;
+}
+
+.seller-card small {
+  color: var(--muted);
+}
+
+.seller-status {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.seller-status.coming {
+  color: #b45309;
+}
+
+.calculator-card, .results-card, .info-section {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 5px 20px rgba(15, 23, 42, .035);
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.section-heading h2 {
+  font-size: 21px;
+  margin: 7px 0;
+}
+
+.calculator-icon, .result-icon {
+  font-size: 27px;
+  background: #eff6ff;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 650;
+  font-size: 14px;
+  margin-bottom: 9px;
+}
+
+.form-group label span {
+  color: var(--muted);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  color: var(--text);
+  background: white;
+}
+
+.form-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px #2563eb18;
+}
+
+.form-group small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 7px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+button {
+  font: inherit;
+}
+
+.calculate-btn {
+  flex: 1;
+  border: none;
+  background: var(--primary);
+  color: white;
+  border-radius: 10px;
+  padding: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.calculate-btn:hover {
+  background: var(--primary-dark);
+}
+
+.reset-btn, .reset-results-btn {
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 15px 20px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.result-list {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.result-row {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.result-row:last-child {
+  border: none;
+}
+
+.highlight-row {
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.profit-box {
+  background: #ecfdf5;
+  padding: 22px;
+  border-radius: 12px;
+  margin-top: 20px;
+  color: #047857;
+}
+
+.profit-box.negative {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.profit-box h2 {
+  font-size: 34px;
+  margin: 9px 0;
+}
+
+.profit-box span {
+  font-size: 13px;
+}
+
+.result-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.copy-btn {
+  background: #111827;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.info-item span {
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.info-item strong {
+  display: block;
+  margin: 8px 0;
+}
+
+.info-item p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.coming-soon-content {
+  text-align: center;
+  padding: 35px 10px;
+}
+
+.coming-icon {
+  font-size: 40px;
+  margin-bottom: 18px;
+}
+
+.coming-soon-content h2 {
+  margin: 12px 0;
+}
+
+.coming-soon-content p {
+  color: var(--muted);
+  max-width: 450px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 20px 0;
+  font-size: 13px;
+}
+
+footer p {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.hidden {
+  display: none !important;
+}
+
+button:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 30px 15px;
+  }
+
+  .calculator-card, .results-card, .info-section {
+    padding: 19px;
+  }
+
+  .seller-options {
+    grid-template-columns: 1fr;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .result-row {
+    font-size: 13px;
+  }
+}

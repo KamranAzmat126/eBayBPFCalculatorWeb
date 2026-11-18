@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <title>BPF Profit Calculator | eBay Sellers</title>
+  <meta name="description" content="Calculate eBay Buyer Protection Fees, listing prices and selling profits.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="brand">
+    <div>
+      <img class="brand-icon" src="logo.png" alt="£">
+    </div>
+    <div>
+      <h2>BPF Calculator</h2>
+      <span>Smart pricing for eBay sellers</span>
+    </div>
+  </div>
+  <span class="free-badge">FREE TOOL</span>
+</header>
+
+<main class="container">
+
+  <section class="intro">
+    <span class="eyebrow">SELL SMARTER</span>
+    <h1>Calculate your profit.</h1>
+    <p>Know exactly what you earn before listing your item.</p>
+  </section>
+
+  <section class="seller-section">
+    <h3>Choose your seller account</h3>
+
+    <div class="seller-options">
+
+      <button class="seller-card active" id="privateTab"
+              onclick="selectSeller('private')">
+        <span class="seller-icon">👤</span>
+        <strong>Private Seller</strong>
+        <small>Calculate BPF and selling profit</small>
+        <span class="seller-status">Available now</span>
+      </button>
+
+      <button class="seller-card" id="businessTab"
+              onclick="selectSeller('business')">
+        <span class="seller-icon">🏪</span>
+        <strong>Business Seller</strong>
+        <small>Business fees and profitability</small>
+        <span class="seller-status coming">Coming soon</span>
+      </button>
+
+    </div>
+  </section>
+
+  <section id="privateCalculator" class="calculator-card">
+
+    <div class="section-heading">
+      <div>
+        <span class="step-label">STEP 01</span>
+        <h2>Enter selling details</h2>
+        <p>Enter your product pricing information below.</p>
+      </div>
+      <span class="calculator-icon">🧮</span>
+    </div>
+
+    <form id="calculatorForm">
+
+      <div class="form-group">
+        <label for="targetPrice">
+          Target price including BPF
+          <span>£</span>
+        </label>
+        <input type="number" id="targetPrice"
+               placeholder="e.g. 25.00"
+               min="0.01" step="0.01" required>
+        <small>Total price you want the buyer to pay.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="sourcePrice">
+          Source price <span>£</span>
+        </label>
+        <input type="number" id="sourcePrice"
+               placeholder="e.g. 12.00"
+               min="0" step="0.01" required>
+        <small>Your purchase cost for the product.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="adRate">
+          Advertising rate <span>%</span>
+        </label>
+        <input type="number" id="adRate"
+               placeholder="e.g. 5"
+               min="0" max="100" step="0.01" value="0" required>
+        <small>Your promoted listing advertising percentage.</small>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="calculate-btn">
+          Calculate my profit <span>→</span>
+        </button>
+        <button type="reset" class="reset-btn" id="resetBtn">
+          Clear
+        </button>
+      </div>
+
+    </form>
+
+  </section>
+
+  <section id="businessCalculator" class="calculator-card hidden">
+    <div class="coming-soon-content">
+      <div class="coming-icon">🏪</div>
+      <span class="step-label">COMING SOON</span>
+      <h2>Business Seller Calculator</h2>
+      <p>We are working on business seller fee calculations,
+         VAT considerations and advanced profit analysis.</p>
+    </div>
+  </section>
+
+  <section id="resultsSection" class="results-card hidden">
+
+    <div class="section-heading">
+      <div>
+        <span class="step-label">STEP 02</span>
+        <h2>Your calculation results</h2>
+        <p>Here is your estimated selling breakdown.</p>
+      </div>
+      <span class="result-icon">📊</span>
+    </div>
+
+    <div class="result-list">
+
+      <div class="result-row">
+        <span>Target buyer price incl. BPF</span>
+        <strong id="resultTarget">£0.00</strong>
+      </div>
+
+      <div class="result-row">
+        <span>Buyer Protection Fee</span>
+        <strong id="resultBpf">£0.00</strong>
+      </div>
+
+      <div class="result-row highlight-row">
+        <span>Listing price excluding BPF</span>
+        <strong id="resultListing">£0.00</strong>
+      </div>
+
+      <div class="result-row">
+        <span>Advertising fee</span>
+        <strong id="resultAdFee">£0.00</strong>
+      </div>
+
+      <div class="result-row">
+        <span>Source price</span>
+        <strong id="resultSource">£0.00</strong>
+      </div>
+
+    </div>
+
+    <div class="profit-box" id="profitBox">
+      <span>Estimated profit / loss</span>
+      <h2 id="resultProfit">£0.00</h2>
+      <span id="resultMargin">Profit margin: 0%</span>
+    </div>
+
+    <div class="result-actions">
+      <button class="copy-btn" id="copyBtn">Copy results</button>
+      <button class="reset-results-btn" id="newCalculationBtn">
+        New calculation
+      </button>
+    </div>
+
+  </section>
+
+  <section class="info-section">
+    <h3>How it works</h3>
+    <div class="info-grid">
+      <div class="info-item">
+        <span>01</span>
+        <strong>Enter your price</strong>
+        <p>Set your desired buyer-facing price.</p>
+      </div>
+      <div class="info-item">
+        <span>02</span>
+        <strong>Calculate fees</strong>
+        <p>See BPF and advertising costs.</p>
+      </div>
+      <div class="info-item">
+        <span>03</span>
+        <strong>Check profit</strong>
+        <p>Understand your estimated earnings.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>BPF Profit Calculator</p>
+    <small>Independent seller tool. Not affiliated with or endorsed by eBay.</small>
+  </footer>
+
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
