@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="../../styles/main.css">
+<link rel="stylesheet" href="../../styles/privateSeller.css">
+
+<section id="privateCalculator" class="calculator-card">
+
+    <div class="section-heading">
+      <div>
+        <span class="step-label">STEP 01</span>
+        <h2>Enter selling details</h2>
+        <p>Enter your product pricing information below.</p>
+      </div>
+      <span class="calculator-icon">🧮</span>
+    </div>
+
+    <form id="calculatorForm">
+
+      <div class="form-group">
+        <label for="targetPrice">
+          Target price including BPF
+          <span>£</span>
+        </label>
+        <input type="number" id="targetPrice"
+               placeholder="e.g. 25.00"
+               min="0.01" step="0.01" required>
+        <small>Total price you want the buyer to pay.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="sourcePrice">
+          Source price <span>£</span>
+        </label>
+        <input type="number" id="sourcePrice"
+               placeholder="e.g. 12.00"
+               min="0" step="0.01" required>
+        <small>Your purchase cost for the product.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="adRate">
+          Advertising rate <span>%</span>
+        </label>
+        <input type="number" id="adRate"
+               placeholder="e.g. 5"
+               min="0" max="100" step="0.01" value="0" required>
+        <small>Your promoted listing advertising percentage.</small>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="calculate-btn">
+          Calculate my profit <span>→</span>
+        </button>
+        <button type="reset" class="reset-btn" id="resetBtn">
+          Clear
+        </button>
+      </div>
+
+    </form>
+
+  </section>

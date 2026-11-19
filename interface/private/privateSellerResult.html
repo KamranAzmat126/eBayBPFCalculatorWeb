@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="../../styles/main.css">
+<link rel="stylesheet" href="../../styles/result.css">
+
+<section id="resultsSection" class="results-card hidden">
+
+    <div class="section-heading">
+      <div>
+        <span class="step-label">STEP 02</span>
+        <h2>Your calculation results</h2>
+        <p>Here is your estimated selling breakdown.</p>
+      </div>
+      <span class="result-icon">📊</span>
+    </div>
+
+    <div class="result-list">
+
+      <div class="result-row">
+        <span>Target buyer price incl. BPF</span>
+        <strong id="resultTarget">£0.00</strong>
+      </div>
+
+      <div class="result-row">
+        <span>Buyer Protection Fee</span>
+        <strong id="resultBpf">£0.00</strong>
+      </div>
+
+      <div class="result-row highlight-row">
+        <span>Listing price excluding BPF</span>
+        <strong id="resultListing">£0.00</strong>
+      </div>
+
+      <div class="result-row">
+        <span>Advertising fee</span>
+        <strong id="resultAdFee">£0.00</strong>
+      </div>
+
+      <div class="result-row">
+        <span>Source price</span>
+        <strong id="resultSource">£0.00</strong>
+      </div>
+
+    </div>
+
+    <div class="profit-box" id="profitBox">
+      <span>Estimated profit / loss</span>
+      <h2 id="resultProfit">£0.00</h2>
+      <span id="resultMargin">Profit margin: 0%</span>
+    </div>
+
+    <div class="result-actions">
+      <button class="copy-btn" id="copyBtn">Copy results</button>
+      <button class="reset-results-btn" id="newCalculationBtn">
+        New calculation
+      </button>
+    </div>
+
+  </section>
