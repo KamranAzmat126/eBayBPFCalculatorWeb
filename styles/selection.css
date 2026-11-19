@@ -1,0 +1,65 @@
+
+.seller-section h3 {
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+.seller-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.seller-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 8px;
+  padding: 20px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.seller-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.seller-card.active {
+  border: 2px solid var(--primary);
+  background: #eff6ff;
+}
+
+.seller-icon {
+  font-size: 24px;
+}
+
+.seller-card strong {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.seller-card small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.seller-status {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.seller-status.coming {
+  color: #b45309;
+}
+
+@media (max-width: 600px) {
+  .seller-options {
+    grid-template-columns: 1fr;
+  }
+}

@@ -7,56 +7,37 @@
   <meta name="theme-color" content="#111827">
   <title>BPF Profit Calculator | eBay Sellers</title>
   <meta name="description" content="Calculate eBay Buyer Protection Fees, listing prices and selling profits.">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
 
-<header class="header">
-  <div class="brand">
-    <div>
-      <img class="brand-icon" src="logo.png" alt="£">
-    </div>
-    <div>
-      <h2>BPF Calculator</h2>
-      <span>Smart pricing for eBay sellers</span>
-    </div>
-  </div>
-  <span class="free-badge">FREE TOOL</span>
-</header>
+<!-- Header -->
 
-<main class="container">
+<div id="headerContainer" class="header-frame"></div>
 
-  <section class="intro">
-    <span class="eyebrow">SELL SMARTER</span>
-    <h1>Calculate your profit.</h1>
-    <p>Know exactly what you earn before listing your item.</p>
-  </section>
+<!-- Selection container for Private or Business Seller -->
 
-  <section class="seller-section">
-    <h3>Choose your seller account</h3>
+<div id="selectionContainer" class="selection-frame"></div>
 
-    <div class="seller-options">
 
-      <button class="seller-card active" id="privateTab"
-              onclick="selectSeller('private')">
-        <span class="seller-icon">👤</span>
-        <strong>Private Seller</strong>
-        <small>Calculate BPF and selling profit</small>
-        <span class="seller-status">Available now</span>
-      </button>
+<!-- Private Seller Input interface -->
 
-      <button class="seller-card" id="businessTab"
-              onclick="selectSeller('business')">
-        <span class="seller-icon">🏪</span>
-        <strong>Business Seller</strong>
-        <small>Business fees and profitability</small>
-        <span class="seller-status coming">Coming soon</span>
-      </button>
+<div id="privateCalculatorContainer" class="calculator-frame"></div>
 
-    </div>
-  </section>
+<!-- Private Seller Result interface -->
 
-  <section id="privateCalculator" class="calculator-card">
+<div id="resultsContainer" class="calculator-frame"></div>
+
+
+<!-- Business Seller Input interface -->
+
+<div id="businessCalculatorContainer" class="calculator-frame hidden"></div>
+
+<!-- Business Seller Result interface -->
+
+<div id="businessResultsContainer" class="calculator-frame hidden"></div>
+
+  <!-- <section id="privateCalculator" class="calculator-card">
 
     <div class="section-heading">
       <div>
@@ -111,9 +92,11 @@
 
     </form>
 
-  </section>
+  </section> -->
 
-  <section id="businessCalculator" class="calculator-card hidden">
+  <!-- Business seller fee calculator -->
+
+  <!-- <section id="businessCalculator" class="calculator-card hidden">
     <div class="coming-soon-content">
       <div class="coming-icon">🏪</div>
       <span class="step-label">COMING SOON</span>
@@ -121,64 +104,164 @@
       <p>We are working on business seller fee calculations,
          VAT considerations and advanced profit analysis.</p>
     </div>
-  </section>
+  </section> -->
 
-  <section id="resultsSection" class="results-card hidden">
+   
+<!-- Business Seller Calculator -->
 
-    <div class="section-heading">
-      <div>
-        <span class="step-label">STEP 02</span>
-        <h2>Your calculation results</h2>
-        <p>Here is your estimated selling breakdown.</p>
-      </div>
-      <span class="result-icon">📊</span>
+<!-- <section class="calculator-section" id="businessSellerCalculator">
+
+  <div class="calculator-heading">
+    <div>
+      <span class="step-label">STEP 01</span>
+      <h2>Enter business selling details</h2>
+      <p>Enter your business seller pricing information below.</p>
+    </div>
+    <div class="calculator-icon">🧮</div>
+  </div>
+
+  <div class="calculator-grid">
+
+    <div class="form-group">
+      <label for="businessShop">eBay shop subscription</label>
+      <select id="businessShop">
+        <option value="none">No Shop</option>
+        <option value="basic">Basic</option>
+        <option value="featured">Featured</option>
+        <option value="anchor">Anchor</option>
+      </select>
+      <small>Select your current eBay shop subscription.</small>
     </div>
 
-    <div class="result-list">
-
-      <div class="result-row">
-        <span>Target buyer price incl. BPF</span>
-        <strong id="resultTarget">£0.00</strong>
-      </div>
-
-      <div class="result-row">
-        <span>Buyer Protection Fee</span>
-        <strong id="resultBpf">£0.00</strong>
-      </div>
-
-      <div class="result-row highlight-row">
-        <span>Listing price excluding BPF</span>
-        <strong id="resultListing">£0.00</strong>
-      </div>
-
-      <div class="result-row">
-        <span>Advertising fee</span>
-        <strong id="resultAdFee">£0.00</strong>
-      </div>
-
-      <div class="result-row">
-        <span>Source price</span>
-        <strong id="resultSource">£0.00</strong>
-      </div>
-
+    <div class="form-group">
+      <label for="businessVat">VAT registration</label>
+      <select id="businessVat">
+        <option value="registered">VAT Registered</option>
+        <option value="not-registered">Not VAT Registered</option>
+      </select>
+      <small>Select your VAT registration status.</small>
     </div>
 
-    <div class="profit-box" id="profitBox">
-      <span>Estimated profit / loss</span>
-      <h2 id="resultProfit">£0.00</h2>
-      <span id="resultMargin">Profit margin: 0%</span>
+    <div class="form-group">
+      <label for="businessCategory">Product category</label>
+      <select id="businessCategory">
+        <option value="">Select a category</option>
+        <option value="category1">Category 1</option>
+        <option value="category2">Category 2</option>
+        <option value="category3">Category 3</option>
+      </select>
+      <small>Select the category that matches your listing.</small>
     </div>
 
-    <div class="result-actions">
-      <button class="copy-btn" id="copyBtn">Copy results</button>
-      <button class="reset-results-btn" id="newCalculationBtn">
-        New calculation
-      </button>
+    <div class="form-group">
+      <label for="businessSellingPrice">
+        Selling price <span>£</span>
+      </label>
+      <input type="number" id="businessSellingPrice"
+        min="0" step="0.01" placeholder="e.g. 25.00">
+      <small>Price of the product before postage.</small>
     </div>
 
-  </section>
+    <div class="form-group">
+      <label for="businessPostage">
+        Postage charged to buyer <span>£</span>
+      </label>
+      <input type="number" id="businessPostage"
+        min="0" step="0.01" placeholder="e.g. 3.00" value="0">
+      <small>Postage amount paid by the buyer.</small>
+    </div>
 
-  <section class="info-section">
+    <div class="form-group">
+      <label for="businessSourcePrice">
+        Source price <span>£</span>
+      </label>
+      <input type="number" id="businessSourcePrice"
+        min="0" step="0.01" placeholder="e.g. 12.00">
+      <small>Your purchase cost for the product.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="businessAdRate">
+        Advertising rate <span>%</span>
+      </label>
+      <input type="number" id="businessAdRate"
+        min="0" step="0.01" placeholder="e.g. 2.00" value="0">
+      <small>Your promoted listing advertising percentage.</small>
+    </div>
+
+  </div>
+
+  <div class="calculator-actions">
+    <button type="button" id="calculateBusinessBtn"
+      class="calculate-button">
+      Calculate my profit →
+    </button>
+    <button type="button" id="clearBusinessBtn"
+      class="clear-button">
+      Clear
+    </button>
+  </div>
+
+  <p id="businessError" class="business-error"></p>
+
+  <div id="businessResults" class="business-results" hidden>
+    <h3>Business seller profit breakdown</h3>
+
+    <div class="business-result-row">
+      <span>Total buyer payment</span>
+      <strong id="businessBuyerTotal">£0.00</strong>
+    </div>
+    <div class="business-result-row">
+      <span>Final Value Fee</span>
+      <strong id="businessFVF">£0.00</strong>
+    </div>
+    <div class="business-result-row">
+      <span>Fixed order fee</span>
+      <strong id="businessOrderFee">£0.00</strong>
+    </div>
+    <div class="business-result-row">
+      <span>Regulatory Operating Fee</span>
+      <strong id="businessROF">£0.00</strong>
+    </div>
+    <div class="business-result-row">
+      <span>Advertising fee</span>
+      <strong id="businessAdvertisingFee">£0.00</strong>
+    </div>
+    <div class="business-result-row">
+      <span>Listing fee</span>
+      <strong id="businessListingFee">£0.00</strong>
+    </div>
+    <div class="business-result-row">
+      <span>VAT on fees</span>
+      <strong id="businessFeeVAT">£0.00</strong>
+    </div>
+    <div class="business-result-row total-row">
+      <span>Total eBay fees</span>
+      <strong id="businessTotalFees">£0.00</strong>
+    </div>
+    <div class="business-result-row">
+      <span>Product source cost</span>
+      <strong id="businessProductCost">£0.00</strong>
+    </div>
+    <div class="business-result-row profit-row">
+      <span>Net profit</span>
+      <strong id="businessNetProfit">£0.00</strong>
+    </div>
+    <div class="business-result-row">
+      <span>Profit margin</span>
+      <strong id="businessProfitMargin">0%</strong>
+    </div>
+    <div class="business-result-row">
+      <span>ROI</span>
+      <strong id="businessROI">0%</strong>
+    </div>
+  </div>
+</section> -->
+
+<!-- Private Seller Result interface -->
+
+
+<!-- <section class="info-section">
     <h3>How it works</h3>
     <div class="info-grid">
       <div class="info-item">
@@ -197,7 +280,9 @@
         <p>Understand your estimated earnings.</p>
       </div>
     </div>
-  </section>
+  </section> -->
+
+
 
   <footer>
     <p>BPF Profit Calculator</p>
@@ -206,6 +291,7 @@
 
 </main>
 
-<script type="module" src="app.js"></script>
+<script type="module" src="js/app.js"></script>
+
 </body>
 </html>

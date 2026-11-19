@@ -1,0 +1,26 @@
+
+/* Business Seller Calculator */
+
+/* Reuse the existing Private Seller calculator styling */
+@import url("./privateSeller.css");
+
+/* Business Seller specific adjustments */
+
+#businessCalculator {
+    width: 100%;
+}
+
+#businessCalculator select {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #ffffff;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+}
+
+#businessCalculator select:focus {
+    border-color: var(--primary);
+}
