@@ -1,5 +1,8 @@
+import {
+       calculateBusinessSeller,
+       initBusinessCategorySelectors
+   } from "./businessSeller/businessSeller.js";
 import { calculatePrivateSeller } from "./privateSeller/privateSeller.js";
-import { calculateBusinessSeller } from "./businessSeller/businessSeller.js";
 import { loadHTML } from "./components/loadHTML.js";
 
 // Load all HTML components before initialising the calculator
@@ -12,6 +15,8 @@ await Promise.all([
     loadHTML("businessCalculatorContainer", "interface/business/businessSellerInputs.html"),
     loadHTML("businessResultsContainer", "interface/business/businessSellerResult.html")
 ]);
+
+initBusinessCategorySelectors();
 
 const businessForm = document.getElementById("businessCalculatorForm");
     
@@ -158,6 +163,7 @@ form.addEventListener("submit", function(event) {
                 vat: document.getElementById("businessVat").value,
                 purchaseVat: document.getElementById("businessPurchaseVat").value,
                 category: document.getElementById("businessCategory").value,
+                subcategory: document.getElementById("businessSubcategory").value,
                 sellingPrice: Number(document.getElementById("businessSellingPrice").value),
                 postage: Number(document.getElementById("businessPostage").value),
                 sourcePrice: Number(document.getElementById("businessSourcePrice").value),

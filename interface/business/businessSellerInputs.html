@@ -1,9 +1,7 @@
-
 <link rel="stylesheet" href="../../styles/main.css">
 <link rel="stylesheet" href="../../styles/businessSeller.css">
 
 <section id="businessCalculator" class="calculator-card">
-
     <div class="section-heading">
         <div>
             <span class="step-label">STEP 01</span>
@@ -14,7 +12,6 @@
     </div>
 
     <form id="businessCalculatorForm">
-
         <div class="form-group">
             <label for="businessShop">Shop subscription</label>
             <select id="businessShop" required>
@@ -33,7 +30,6 @@
                 <option value="not-registered">Not VAT Registered</option>
             </select>
         </div>
-        
 
         <div class="form-group">
             <label for="businessPurchaseVat">Purchase VAT treatment</label>
@@ -45,89 +41,84 @@
             <small>Select how VAT on your product purchase is treated.</small>
         </div>
 
-
         <div class="form-group">
-            <label for="businessCategory">Shop category</label>
-            
+            <label for="businessCategory">Main category</label>
             <select id="businessCategory" required>
-                <option value="">Select a category</option>
+                <option value="">Select a main category</option>
                 <option value="antiques">Antiques</option>
                 <option value="art">Art</option>
                 <option value="baby">Baby</option>
-                <option value="books">Books, Comics & Magazines</option>
-                <option value="business">Business, Office & Industrial</option>
-                <option value="cameras">Cameras & Photography</option>
-                <option value="clothes">Clothes, Shoes & Accessories</option>
+                <option value="books_comics_magazines">Books, Comics & Magazines</option>
+                <option value="business_office_industrial">Business, Office & Industrial</option>
+                <option value="cameras_photography">Cameras & Photography</option>
+                <option value="clothes_shoes_accessories">Clothes, Shoes & Accessories</option>
+                <option value="coins">Coins</option>
+                <option value="collectables">Collectables</option>
+                <option value="computers_tablets_networking">Computers, Tablets & Networking</option>
                 <option value="crafts">Crafts</option>
-                <option value="dolls">Dolls & Bears</option>
-                <option value="eventTickets">Event Tickets</option>
-                <option value="films">Films & TV</option>
-                <option value="garden">Garden & Patio</option>
-                <option value="health">Health & Beauty</option>
-                <option value="holidays">Holidays & Travel</option>
-                <option value="home">Home, Furniture & DIY</option>
-                <option value="jewellery">Jewellery & Watches</option>
-                <option value="mobile">Mobile Phones & Communication</option>
+                <option value="dolls_bears">Dolls & Bears</option>
+                <option value="event_tickets">Event Tickets</option>
+                <option value="films_tv">Films & TV</option>
+                <option value="garden_patio">Garden & Patio</option>
+                <option value="health_beauty">Health & Beauty</option>
+                <option value="holidays_travel">Holidays & Travel</option>
+                <option value="home_furniture_diy">Home, Furniture & DIY</option>
+                <option value="jewellery_watches">Jewellery & Watches</option>
+                <option value="mobile_phones_communication">Mobile Phones & Communication</option>
                 <option value="music">Music</option>
-                <option value="instruments">Musical Instruments & DJ Equipment</option>
-                <option value="pets">Pet Supplies</option>
-                <option value="pottery">Pottery, Ceramics & Glass</option>
-                <option value="sport">Sporting Goods</option>
-                <option value="sportsMemorabilia">Sports Memorabilia</option>
+                <option value="musical_instruments_dj_equipment">Musical Instruments & DJ Equipment</option>
+                <option value="pet_supplies">Pet Supplies</option>
+                <option value="pottery_ceramics_glass">Pottery, Ceramics & Glass</option>
+                <option value="sound_vision">Sound & Vision</option>
+                <option value="sporting_goods">Sporting Goods</option>
+                <option value="sports_memorabilia">Sports Memorabilia</option>
                 <option value="stamps">Stamps</option>
-                <option value="toys">Toys & Games</option>
-                <option value="vehicles">Vehicle Parts & Accessories</option>
-                <option value="games">Video Games & Consoles</option>
-                <option value="wholesale">Wholesale & Job Lots</option>
-                <option value="other">Everything Else</option>
+                <option value="toys_games">Toys & Games</option>
+                <option value="vehicle_parts_accessories">Vehicle Parts & Accessories</option>
+                <option value="video_games_consoles">Video Games & Consoles</option>
+                <option value="wholesale_job_lots">Wholesale & Job Lots</option>
+                <option value="everything_else">Everything Else</option>
             </select>
-            <small>Select the category that best matches your product.</small>
+            <small>Select the main eBay category for your product.</small>
+        </div>
+
+        <div class="form-group hidden" id="businessSubcategoryGroup">
+            <label for="businessSubcategory">Subcategory</label>
+            <select id="businessSubcategory" disabled>
+                <option value="">Select a subcategory</option>
+            </select>
+            <small>Select a subcategory if your product belongs to one of the listed special-fee categories.</small>
         </div>
 
         <div class="form-group">
-            <label for="businessSellingPrice">
-                Product selling price <span>£</span>
-            </label>
-            <input type="number" id="businessSellingPrice"
-                   placeholder="e.g. 25.00" min="0.01"
-                   step="0.01" required>
+            <label for="businessSellingPrice">Product selling price <span>£</span></label>
+            <input type="number" id="businessSellingPrice" placeholder="e.g. 25.00"
+                   min="0.01" step="0.01" required>
         </div>
 
         <div class="form-group">
-            <label for="businessPostage">
-                Postage charged to buyer <span>£</span>
-            </label>
-            <input type="number" id="businessPostage"
-                   placeholder="e.g. 3.00" min="0"
-                   step="0.01" value="0" required>
+            <label for="businessPostage">Postage charged to buyer <span>£</span></label>
+            <input type="number" id="businessPostage" placeholder="e.g. 3.00"
+                   min="0" step="0.01" value="0" required>
         </div>
 
         <div class="form-group">
-            <label for="businessSourcePrice">
-                Source / purchase price <span>£</span>
-            </label>
-            <input type="number" id="businessSourcePrice"
-                   placeholder="e.g. 12.00" min="0"
-                   step="0.01" required>
+            <label for="businessSourcePrice">Source / purchase price <span>£</span></label>
+            <input type="number" id="businessSourcePrice" placeholder="e.g. 12.00"
+                   min="0" step="0.01" required>
         </div>
 
         <div class="form-group">
-            <label for="businessAdRate">
-                Advertising rate <span>%</span>
-            </label>
-            <input type="number" id="businessAdRate"
-                   placeholder="e.g. 5" min="0"
-                   step="0.01" value="0" required>
+            <label for="businessAdRate">Advertising rate <span>%</span></label>
+            <input type="number" id="businessAdRate" placeholder="e.g. 5"
+                   min="0" step="0.01" value="0" required>
         </div>
 
         <div class="button-group">
             <button type="submit" class="calculate-btn">
                 Calculate my profit <span>→</span>
             </button>
-            <button type="reset" class="reset-btn">
-                Clear
-            </button>
+            <button type="reset" class="reset-btn">Clear</button>
         </div>
-
     </form>
 </section>
