@@ -1,12 +1,43 @@
-import {
-       calculateBusinessSeller,
-       initBusinessCategorySelectors
-   } from "./businessSeller/businessSeller.js";
-import { calculatePrivateSeller } from "./privateSeller/privateSeller.js";
+import { initBusinessCategorySelectors } from "./businessSeller/businessSeller.js";
 import { loadHTML } from "./components/loadHTML.js";
 
-// Load all HTML components before initialising the calculator
+const API_BASE_URL =
+    "https://ebay-fee-calculator-api.kamran-azmat926.workers.dev";
 
+// Send calculation inputs to the private Cloudflare API
+async function calculateViaApi(endpoint, inputs) {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(inputs)
+    });
+
+    let data;
+
+    try {
+        data = await response.json();
+    } catch {
+        throw new Error("Invalid response from calculation server.");
+    }
+
+    if (!response.ok || !data.success) {
+        throw new Error(data.error || "Calculation failed.");
+    }
+
+    return data.result;
+}
+
+// Format currency
+function money(value) {
+    return new Intl.NumberFormat("en-GB", {
+        style: "currency",
+        currency: "GBP"
+    }).format(value);
+}
+
+// Load all HTML components
 await Promise.all([
     loadHTML("headerContainer", "interface/header/header.html"),
     loadHTML("selectionContainer", "interface/selection/selectionContainer.html"),
@@ -16,60 +47,47 @@ await Promise.all([
     loadHTML("businessResultsContainer", "interface/business/businessSellerResult.html")
 ]);
 
-initBusinessCategorySelectors();
+// Load category names from the private API
+await initBusinessCategorySelectors();
 
 const businessForm = document.getElementById("businessCalculatorForm");
-    
 const form = document.getElementById("calculatorForm");
+
 const resultsSection = document.getElementById("resultsSection");
+const businessResultsContainer = document.getElementById("businessResultsContainer");
+const businessResultsSection = document.getElementById("businessResultsSection");
 
-const privateCalculator = document.getElementById("privateCalculator");
-const businessCalculator = document.getElementById("businessCalculator");
-
-function money(value) {
-    return new Intl.NumberFormat("en-GB", {
-        style: "currency",
-        currency: "GBP"
-    }).format(value);
-}
-
-
+// Switch between private and business sellers
 export function selectSeller(type) {
     const isPrivate = type === "private";
 
-    // Update selected seller cards
     document.getElementById("privateTab")
         .classList.toggle("active", isPrivate);
 
     document.getElementById("businessTab")
         .classList.toggle("active", !isPrivate);
 
-    // Show the selected calculator
     document.getElementById("privateCalculatorContainer")
         .classList.toggle("hidden", !isPrivate);
 
     document.getElementById("businessCalculatorContainer")
         .classList.toggle("hidden", isPrivate);
 
-    // Hide both results when switching sellers
     document.getElementById("resultsContainer")
         .classList.add("hidden");
 
-    document.getElementById("businessResultsContainer")
-        .classList.add("hidden");
+    businessResultsContainer.classList.add("hidden");
 
-    // Hide individual result sections
-    document.getElementById("resultsSection")
-        ?.classList.add("hidden");
-
-    document.getElementById("businessResultsSection")
-        ?.classList.add("hidden");
+    resultsSection?.classList.add("hidden");
+    businessResultsSection?.classList.add("hidden");
 }
 
 window.selectSeller = selectSeller;
 
-form.addEventListener("submit", function(event) {
 
+// PRIVATE SELLER CALCULATOR
+
+form.addEventListener("submit", async function(event) {
     event.preventDefault();
 
     const targetPrice = Number(
@@ -84,10 +102,8 @@ form.addEventListener("submit", function(event) {
         document.getElementById("adRate").value
     );
 
-    // Private Seller
     try {
-
-        const result = calculatePrivateSeller({
+        const result = await calculateViaApi("/api/private", {
             targetPrice,
             sourcePrice,
             adRate
@@ -114,12 +130,13 @@ form.addEventListener("submit", function(event) {
         document.getElementById("resultMargin").textContent =
             "Profit margin: " + result.margin.toFixed(2) + "%";
 
-        const profitBox = document.getElementById("profitBox");
-
-        profitBox.classList.toggle("negative", result.profit < 0);
+        document.getElementById("profitBox").classList.toggle(
+            "negative",
+            result.profit < 0
+        );
 
         resultsSection.classList.remove("hidden");
-        
+
         document.getElementById("resultsContainer")
             .classList.remove("hidden");
 
@@ -131,172 +148,160 @@ form.addEventListener("submit", function(event) {
         window.lastCalculation = result;
 
     } catch (error) {
-
-    console.error("Calculation error:", error);
-    alert(error.message || "Something went wrong. Check the browser console.");
+        console.error("Private calculation error:", error);
+        alert(error.message || "Unable to calculate. Please try again.");
     }
 });
 
-// Business Seller
-    
-    const businessResultsContainer = document.getElementById(
-        "businessResultsContainer"
-    );
 
-    const businessResultsSection = document.getElementById(
-        "businessResultsSection"
-    );
+// BUSINESS SELLER CALCULATOR
 
-    function businessMoney(value) {
-        return new Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP"
-        }).format(value);
+businessForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    try {
+        const result = await calculateViaApi("/api/business", {
+            shop: document.getElementById("businessShop").value,
+            vat: document.getElementById("businessVat").value,
+            purchaseVat: document.getElementById("businessPurchaseVat").value,
+            category: document.getElementById("businessCategory").value,
+            subcategory: document.getElementById("businessSubcategory").value,
+            sellingPrice: Number(
+                document.getElementById("businessSellingPrice").value
+            ),
+            postage: Number(
+                document.getElementById("businessPostage").value
+            ),
+            sourcePrice: Number(
+                document.getElementById("businessSourcePrice").value
+            ),
+            adRate: Number(
+                document.getElementById("businessAdRate").value
+            )
+        });
+
+        document.getElementById("businessResultBuyerTotal").textContent =
+            money(result.orderTotal);
+
+        document.getElementById("businessResultNetSales").textContent =
+            money(result.netSalesRevenue);
+
+        document.getElementById("businessResultOutputVat").textContent =
+            money(result.outputVat);
+
+        document.getElementById("businessResultFVF").textContent =
+            money(result.finalValueFee);
+
+        document.getElementById("businessResultOrderFee").textContent =
+            money(result.orderFee);
+
+        document.getElementById("businessResultRegulatoryFee").textContent =
+            money(result.regulatoryFee);
+
+        document.getElementById("businessResultAdvertisingFee").textContent =
+            money(result.advertisingFee);
+
+        document.getElementById("businessResultEbayVat").textContent =
+            money(result.ebayFeesVat);
+
+        document.getElementById("businessResultTotalFees").textContent =
+            money(result.totalEbayFees);
+
+        document.getElementById("businessResultSource").textContent =
+            money(result.sourcePrice);
+
+        document.getElementById("businessResultInputVat").textContent =
+            money(result.inputVat);
+
+        document.getElementById("businessResultProfit").textContent =
+            money(result.profit);
+
+        document.getElementById("businessResultMargin").textContent =
+            "Profit margin: " + result.margin.toFixed(2) + "%";
+
+        document.getElementById("businessResultROI").textContent =
+            "ROI: " + result.roi.toFixed(2) + "%";
+
+        document.getElementById("businessResultVatPayable").textContent =
+            money(result.estimatedVatPayable);
+
+        document.getElementById("businessProfitBox").classList.toggle(
+            "negative",
+            result.profit < 0
+        );
+
+        businessResultsSection.classList.remove("hidden");
+        businessResultsContainer.classList.remove("hidden");
+
+        businessResultsSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+        window.lastBusinessCalculation = result;
+
+    } catch (error) {
+        console.error("Business calculation error:", error);
+        alert(error.message || "Unable to calculate. Please try again.");
     }
+});
 
-    businessForm.addEventListener("submit", function(event) {
-        event.preventDefault();
 
-        try {
-            const result = calculateBusinessSeller({
-                shop: document.getElementById("businessShop").value,
-                vat: document.getElementById("businessVat").value,
-                purchaseVat: document.getElementById("businessPurchaseVat").value,
-                category: document.getElementById("businessCategory").value,
-                subcategory: document.getElementById("businessSubcategory").value,
-                sellingPrice: Number(document.getElementById("businessSellingPrice").value),
-                postage: Number(document.getElementById("businessPostage").value),
-                sourcePrice: Number(document.getElementById("businessSourcePrice").value),
-                adRate: Number(document.getElementById("businessAdRate").value)
-            });
-
-            document.getElementById("businessResultBuyerTotal").textContent =
-                businessMoney(result.orderTotal);
-
-            document.getElementById("businessResultNetSales").textContent =
-                businessMoney(result.netSalesRevenue);
-
-            document.getElementById("businessResultOutputVat").textContent =
-                businessMoney(result.outputVat);
-
-            document.getElementById("businessResultFVF").textContent =
-                businessMoney(result.finalValueFee);
-
-            document.getElementById("businessResultOrderFee").textContent =
-                businessMoney(result.orderFee);
-
-            document.getElementById("businessResultRegulatoryFee").textContent =
-                businessMoney(result.regulatoryFee);
-
-            document.getElementById("businessResultAdvertisingFee").textContent =
-                businessMoney(result.advertisingFee);
-
-            document.getElementById("businessResultEbayVat").textContent =
-                businessMoney(result.ebayFeesVat);
-
-            document.getElementById("businessResultTotalFees").textContent =
-                businessMoney(result.totalEbayFees);
-
-            document.getElementById("businessResultSource").textContent =
-                businessMoney(result.sourcePrice);
-
-            document.getElementById("businessResultInputVat").textContent =
-                businessMoney(result.inputVat);
-
-            document.getElementById("businessResultProfit").textContent =
-                businessMoney(result.profit);
-
-            document.getElementById("businessResultMargin").textContent =
-                "Profit margin: " + result.margin.toFixed(2) + "%";
-
-            document.getElementById("businessResultROI").textContent =
-                "ROI: " + result.roi.toFixed(2) + "%";
-
-            document.getElementById("businessResultVatPayable").textContent =
-                businessMoney(result.estimatedVatPayable);
-
-            document.getElementById("businessProfitBox").classList.toggle(
-                "negative",
-                result.profit < 0
-            );
-
-            businessResultsSection.classList.remove("hidden");
-            businessResultsContainer.classList.remove("hidden");
-
-            businessResultsSection.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-            window.lastBusinessCalculation = result;
-
-        } catch (error) {
-            console.error(error);
-            alert(error.message);
-        }
-    });
-
+// RESET PRIVATE SELLER RESULTS
 
 form.addEventListener("reset", function() {
-
     resultsSection.classList.add("hidden");
-
 });
 
 document.getElementById("newCalculationBtn")
     .addEventListener("click", function() {
-
         form.reset();
-
         resultsSection.classList.add("hidden");
-
         document.getElementById("targetPrice").focus();
-
     });
 
 
-document.getElementById("copyBtn").addEventListener("click", async function () {
+// COPY PRIVATE SELLER RESULTS
 
-    const r = window.lastCalculation;
+document.getElementById("copyBtn")
+    .addEventListener("click", async function() {
 
-    if (!r) {
-        alert("Please calculate your profit first.");
-        return;
-    }
+        const result = window.lastCalculation;
 
-    const resultsText = [
-        "eBay BPF Profit Calculator",
-        "Target buyer price: " + money(r.targetPrice),
-        "BPF: " + money(r.bpf),
-        "Listing price: " + money(r.listingPrice),
-        "Advertising fee: " + money(r.totalAdFee),
-        "Source price: " + money(r.sourcePrice),
-        "Profit: " + money(r.profit),
-        "Profit margin: " + r.margin.toFixed(2) + "%"
-    ].join("\n");
+        if (!result) {
+            alert("Please calculate your profit first.");
+            return;
+        }
 
-    try {
-        await navigator.clipboard.writeText(resultsText);
-        alert("Latest calculation results copied successfully!");
-    } catch (error) {
-        console.error("Copy failed:", error);
-        alert("Unable to copy results. Please check browser permissions.");
-    }
+        const resultsText = [
+            "eBay BPF Profit Calculator",
+            "Target buyer price: " + money(result.targetPrice),
+            "BPF: " + money(result.bpf),
+            "Listing price: " + money(result.listingPrice),
+            "Advertising fee: " + money(result.totalAdFee),
+            "Source price: " + money(result.sourcePrice),
+            "Profit: " + money(result.profit),
+            "Profit margin: " + result.margin.toFixed(2) + "%"
+        ].join("\n");
 
-});
+        try {
+            await navigator.clipboard.writeText(resultsText);
+            alert("Latest calculation results copied successfully!");
+        } catch (error) {
+            console.error("Copy failed:", error);
+            alert("Unable to copy results. Please check browser permissions.");
+        }
+    });
 
 
-// Clear Business Seller form and results
+// RESET BUSINESS SELLER RESULTS
 
 businessForm.addEventListener("reset", function() {
     businessResultsSection.classList.add("hidden");
     businessResultsContainer.classList.add("hidden");
 });
 
-// Hide previous results when starting a new calculation
-
 businessForm.addEventListener("input", function() {
     businessResultsSection.classList.add("hidden");
     businessResultsContainer.classList.add("hidden");
 });
-
